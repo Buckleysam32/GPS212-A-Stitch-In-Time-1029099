@@ -8,17 +8,38 @@ public class Spawner : MonoBehaviour
 
     [SerializeField] protected TextAsset currentLevel;
 
-    public static string[] characters;
+    public GameObject grassPrefab;
+    public GameObject dirtPrefab;
 
-    // Start is called before the first frame update
-    void Awake()
+    private void Start()
     {
-        characters = currentLevel.text.Split();
+        if (currentLevel != null)
+        {
+            string[] lines = currentLevel.text.Split('\n');
 
-        Debug.Log(characters[0]);
+            for (int y = 0; y < lines.Length; y++)
+            {
+                string line = lines[y].Trim();
+                string[] blocks = line.Split(' ');
 
-        // Convert text to a string array
+                for (int x = 0; x < blocks.Length; x++)
+                {
+                    int blockType;
+                    if (int.TryParse(blocks[x], out blockType))
+                    {
+                        GameObject prefabToSpawn = blockType == 0 ? grassPrefab : dirtPrefab;
+                        Vector3 spawnPosition = new Vector3(x, 0, y);
 
+                        GameObject spawnedBlock = Instantiate(prefabToSpawn, spawnPosition, Quaternion.identity);
+
+                        spawnedBlock.transform.parent = transform;
+
+                    }
+                        
+
+                }
+            }
+        }
     }
 
     private void Update()

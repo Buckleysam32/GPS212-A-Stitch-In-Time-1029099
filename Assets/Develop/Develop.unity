@@ -153,6 +153,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentLevel: {fileID: 4900000, guid: cfdf62375705d054ebf4e89faeaad990, type: 3}
+  grassPrefab: {fileID: 5035220899535503228, guid: 4c0d7d50479110544984d8caf3ba78e6, type: 3}
+  dirtPrefab: {fileID: 5390073551851482734, guid: 1e9f82cc3d3a240438c92dcd3c69e786, type: 3}
 --- !u!4 &430141639
 Transform:
   m_ObjectHideFlags: 0
