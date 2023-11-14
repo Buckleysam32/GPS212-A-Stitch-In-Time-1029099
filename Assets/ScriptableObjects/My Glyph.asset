@@ -1,0 +1,48 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0b032abe9b089a84fb2280bd729a7db3, type: 3}
+  m_Name: My Glyph
+  m_EditorClassIdentifier: 
+  layerBreakCharacter: 42
+  glyphItems:
+  - glyphCharacter: 112
+    objectToSpawn: {fileID: 5336290898516712944, guid: 621c8d78b514c7c469abd54c69cb8836, type: 3}
+    worldOffset: {x: 0, y: 0.5, z: 0}
+  - glyphCharacter: 49
+    objectToSpawn: {fileID: 8110230564019946544, guid: ddd5b2f3bd2db8f4db8c6ff5445542d9, type: 3}
+    worldOffset: {x: 0, y: 0, z: 0}
+  - glyphCharacter: 50
+    objectToSpawn: {fileID: 1390771967474167613, guid: f13580f3a545a8b4b9d43ec1f8a6debb, type: 3}
+    worldOffset: {x: 0, y: 0, z: 0}
+  - glyphCharacter: 116
+    objectToSpawn: {fileID: 172822177179989240, guid: 5c9b219563e7107439513d3c299b7646, type: 3}
+    worldOffset: {x: 0, y: 0, z: 0}
+  glyphRotationData:
+  - glyphCharacter: 62
+    eulerRotation: {x: 0, y: 90, z: 0}
+  - glyphCharacter: 118
+    eulerRotation: {x: 0, y: 180, z: 0}
+  - glyphCharacter: 60
+    eulerRotation: {x: 0, y: 270, z: 0}
+  - glyphCharacter: 94
+    eulerRotation: {x: 0, y: 360, z: 0}
+  - glyphCharacter: 46
+    eulerRotation: {x: 0, y: 0, z: 0}
+  ignoreGlyphCharacters:
+  - glyphCharacter: 47
+  glyphLayers:
+  - layernumber: 0
+    layerOffset: {x: 0, y: 0, z: 0}
+  - layernumber: 1
+    layerOffset: {x: 0, y: 1, z: 0}
+  - layernumber: 2
+    layerOffset: {x: 0, y: 3, z: 0}

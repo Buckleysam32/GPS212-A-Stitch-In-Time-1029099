@@ -1,0 +1,17 @@
+/Layer 00
+/Ground 1's = ground, 2's = water
+11111
+11121
+12111
+*
+/Layer 01
+/Objects t= tree, p = player
+...t.
+.p...
+.....
+/Rotation > right, < left, ^ up, v down
+....v
+.>...
+.....
+*
+/Layer 02
