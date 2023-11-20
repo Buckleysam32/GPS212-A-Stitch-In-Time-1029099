@@ -8,14 +8,23 @@ public class Spawner : MonoBehaviour
 
     [SerializeField] protected TextAsset currentLevel;
 
+    // Ground Prefabs
     public GameObject grassPrefab;
     public GameObject dirtPrefab;
 
-    private void Start()
+    [Header("Object Prefabs")] 
+    public GameObject treePrefab;
+    public GameObject playerPrefab;
+
+    public int currentLayer;
+
+    void Start()
     {
         if (currentLevel != null)
         {
             string[] lines = currentLevel.text.Split('\n');
+            bool spawningGroundBlocks = true; // Flag for spawning ground blocks or objects
+            int treePlayerStartY = 0;
 
             for (int y = 0; y < lines.Length; y++)
             {
@@ -24,23 +33,53 @@ public class Spawner : MonoBehaviour
 
                 for (int x = 0; x < blocks.Length; x++)
                 {
-                    int blockType;
-                    if (int.TryParse(blocks[x], out blockType))
+                    if (blocks[x] == "*")
                     {
-                        GameObject prefabToSpawn = blockType == 0 ? grassPrefab : dirtPrefab;
-                        Vector3 spawnPosition = new Vector3(x, 0, y);
-
-                        GameObject spawnedBlock = Instantiate(prefabToSpawn, spawnPosition, Quaternion.identity);
-
-                        spawnedBlock.transform.parent = transform;
-
+                        spawningGroundBlocks = false; // Switch to spawning objects
+                        treePlayerStartY = y + 1; // Store the start of objects' spawning y-coordinate
+                        break; // Exit the loop for ground blocks
                     }
-                        
 
+                    if (spawningGroundBlocks)
+                    {
+                        if (blocks[x] == "0")
+                        {
+                            Instantiate(grassPrefab, new Vector3(x, 0, -y), Quaternion.identity);
+                        }
+                        else if (blocks[x] == "1")
+                        {
+                            Instantiate(dirtPrefab, new Vector3(x, 0, -y), Quaternion.identity);
+                        }
+                    }
+                }
+            }
+
+            // Spawning trees and players
+            for (int y = treePlayerStartY; y < lines.Length; y++)
+            {
+                string line = lines[y].Trim();
+                string[] blocks = line.Split(' ');
+
+                for (int x = 0; x < blocks.Length; x++)
+                {
+                    if (blocks[x] == "t")
+                    {
+                        Instantiate(treePrefab, new Vector3(x, 0.5f, -(y - treePlayerStartY)), Quaternion.identity);
+                    }
+                    else if (blocks[x] == "p")
+                    {
+                        Instantiate(playerPrefab, new Vector3(x, 1.1f, -(y - treePlayerStartY)), Quaternion.identity);
+                    }
                 }
             }
         }
+        else
+        {
+            Debug.LogError("No text file assigned!");
+        }
     }
+
+
 
     private void Update()
     {

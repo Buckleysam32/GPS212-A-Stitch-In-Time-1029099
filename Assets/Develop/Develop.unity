@@ -155,6 +155,9 @@ MonoBehaviour:
   currentLevel: {fileID: 4900000, guid: cfdf62375705d054ebf4e89faeaad990, type: 3}
   grassPrefab: {fileID: 5035220899535503228, guid: 4c0d7d50479110544984d8caf3ba78e6, type: 3}
   dirtPrefab: {fileID: 5390073551851482734, guid: 1e9f82cc3d3a240438c92dcd3c69e786, type: 3}
+  treePrefab: {fileID: 6745942722583521052, guid: c8b4fbce2ca154945b5ccf778dc68104, type: 3}
+  playerPrefab: {fileID: 4604616038211552303, guid: 667c6f80d14278942a90edce1463dd8f, type: 3}
+  currentLayer: 0
 --- !u!4 &430141639
 Transform:
   m_ObjectHideFlags: 0
@@ -349,13 +352,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1368680303}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: -10}
+  m_LocalRotation: {x: 0.3345635, y: 0, z: 0, w: 0.9423733}
+  m_LocalPosition: {x: 3.27, y: 4.6, z: -9.38}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 39.092, y: 0, z: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
