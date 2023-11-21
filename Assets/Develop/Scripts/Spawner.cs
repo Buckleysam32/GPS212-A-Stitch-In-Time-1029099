@@ -1,7 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEditor;
+using JetBrains.Annotations;
 
 public class Spawner : MonoBehaviour
 {
@@ -9,6 +12,7 @@ public class Spawner : MonoBehaviour
     [SerializeField] protected TextAsset currentLevel;
 
     // Ground Prefabs
+    [Header("Ground Prefabs")]
     public GameObject grassPrefab;
     public GameObject dirtPrefab;
 
@@ -17,13 +21,19 @@ public class Spawner : MonoBehaviour
     public GameObject playerPrefab;
 
     public int currentLayer;
+    public bool isWorldSpawned;
 
-    void Start()
+    private void Awake()
     {
-        if (currentLevel != null)
+        isWorldSpawned = false;
+    }
+
+    public void SpawnWorld()
+    {
+        if (currentLevel != null && isWorldSpawned == false)
         {
             string[] lines = currentLevel.text.Split('\n');
-            bool spawningGroundBlocks = true; // Flag for spawning ground blocks or objects
+            bool spawningGroundBlocks = true; 
             int treePlayerStartY = 0;
 
             for (int y = 0; y < lines.Length; y++)
@@ -35,9 +45,9 @@ public class Spawner : MonoBehaviour
                 {
                     if (blocks[x] == "*")
                     {
-                        spawningGroundBlocks = false; // Switch to spawning objects
-                        treePlayerStartY = y + 1; // Store the start of objects' spawning y-coordinate
-                        break; // Exit the loop for ground blocks
+                        spawningGroundBlocks = false; 
+                        treePlayerStartY = y + 1; 
+                        break; 
                     }
 
                     if (spawningGroundBlocks)
@@ -54,7 +64,6 @@ public class Spawner : MonoBehaviour
                 }
             }
 
-            // Spawning trees and players
             for (int y = treePlayerStartY; y < lines.Length; y++)
             {
                 string line = lines[y].Trim();
@@ -72,19 +81,78 @@ public class Spawner : MonoBehaviour
                     }
                 }
             }
+
+            isWorldSpawned = true;
+
         }
         else
         {
-            Debug.LogError("No text file assigned!");
+            Debug.LogError("World has already been spawned.");
         }
+
+
+
     }
 
-
-
-    private void Update()
+    public void ResetWorld()
     {
-        // Loop over the array, instaniating elements
+        List<GameObject> objectsToRemove = new List<GameObject>();
+
+        foreach(GameObject Obj in GameObject.FindGameObjectsWithTag("Grass"))
+        {
+            objectsToRemove.Add(Obj);
+        }
+        foreach (GameObject Obj in GameObject.FindGameObjectsWithTag("Dirt"))
+        {
+            objectsToRemove.Add(Obj);
+        }
+        foreach (GameObject Obj in GameObject.FindGameObjectsWithTag("Player"))
+        {
+            objectsToRemove.Add(Obj);
+        }
+        foreach (GameObject Obj in GameObject.FindGameObjectsWithTag("Tree"))
+        {
+            objectsToRemove.Add(Obj);
+        }
+
+        if (isWorldSpawned == true)
+        {
+            foreach (GameObject gameObject in objectsToRemove)
+            {
+                DestroyImmediate(gameObject);
+            }
+            Debug.Log("Reset World");
+            isWorldSpawned = false;
+        }
+        else
+        {
+            Debug.LogError("No world to reset");
+        }
+
+        
+
     }
 
+}
+
+
+[CustomEditor(typeof(Spawner))]
+public class InspectorEditor : Editor
+{
+    public override void OnInspectorGUI()
+    {
+        Spawner spawner = (Spawner)target;
+        
+        if(GUILayout.Button("Spawn World"))
+        {
+            spawner.SpawnWorld();
+        }
+
+        if(GUILayout.Button("Reset World"))
+        {
+            spawner.ResetWorld();
+        }
+
+    }
 
 }
