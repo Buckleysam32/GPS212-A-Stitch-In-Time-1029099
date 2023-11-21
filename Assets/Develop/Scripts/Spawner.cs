@@ -30,6 +30,8 @@ public class Spawner : MonoBehaviour
 
     public void SpawnWorld()
     {
+        Pathfind.CreateMap(8, 8);
+
         if (currentLevel != null && isWorldSpawned == false)
         {
             string[] lines = currentLevel.text.Split('\n');
@@ -73,6 +75,8 @@ public class Spawner : MonoBehaviour
                 {
                     if (blocks[x] == "t")
                     {
+                        Pathfind.GetNode(new Vector2Int(x, y - treePlayerStartY)).Wall = true;
+
                         Instantiate(treePrefab, new Vector3(x, 0.5f, -(y - treePlayerStartY)), Quaternion.identity);
                     }
                     else if (blocks[x] == "p")
@@ -83,6 +87,7 @@ public class Spawner : MonoBehaviour
             }
 
             isWorldSpawned = true;
+            //var aaa = Pathfind.Nodes;
 
         }
         else
