@@ -19,6 +19,7 @@ public class Spawner : MonoBehaviour
     [Header("Object Prefabs")] 
     public GameObject treePrefab;
     public GameObject playerPrefab;
+    public GameObject enemyPrefab;
 
     public int currentLayer;
     public bool isWorldSpawned;
@@ -82,6 +83,10 @@ public class Spawner : MonoBehaviour
                     else if (blocks[x] == "p")
                     {
                         Instantiate(playerPrefab, new Vector3(x, 1.1f, -(y - treePlayerStartY)), Quaternion.identity);
+                    }
+                    else if (blocks[x] == "e")
+                    {
+                        Instantiate(enemyPrefab, new Vector3(x, 1.1f, -(y - treePlayerStartY)), Quaternion.identity);
                     }
                 }
             }

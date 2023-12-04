@@ -25,11 +25,14 @@ public class NPC : MonoBehaviour
         if (Path.Count == 0)
         {
             Vector2Int newtarget = new Vector2Int();
+            
+            
             do
             {
                 newtarget.x = Random.Range(1, Pathfind.GridWidth - 1);
                 newtarget.y = Random.Range(1, Pathfind.GridHeight - 1);
-            } while (Pathfind.GetNode(newtarget).Wall);
+            } 
+            while (Pathfind.GetNode(newtarget).Wall);
 
             Path = Pathfind.FindPath(
                 new Vector2Int((int)transform.position.x, (int)transform.position.z),
