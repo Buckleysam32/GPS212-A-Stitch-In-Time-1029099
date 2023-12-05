@@ -15,11 +15,12 @@ public class NPC : MonoBehaviour
 
     private void OnCollisionEnter(Collision other)
     {
-        if(other.gameObject.tag == "Player")
+        if (other.gameObject.tag == "Player")
         {
             GameObject.Destroy(other.gameObject);
             Debug.Log("Player had been killed");
         }
+
     }
 
     void Update()
@@ -65,6 +66,7 @@ public class NPC : MonoBehaviour
             {
                 Path.RemoveAt(Path.Count - 1);
             }
+
         }
         for(int z=0;z<Pathfind.GridHeight;z++) 
         {
