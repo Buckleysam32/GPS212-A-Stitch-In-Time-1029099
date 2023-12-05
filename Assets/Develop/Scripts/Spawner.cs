@@ -24,6 +24,9 @@ public class Spawner : MonoBehaviour
     public int currentLayer;
     public bool isWorldSpawned;
 
+    public static int w = 0;
+    public static int h = 0;
+
     private void Awake()
     {
         isWorldSpawned = false;
@@ -38,8 +41,7 @@ public class Spawner : MonoBehaviour
             string[] lines = currentLevel.text.Split('\n');
             bool spawningGroundBlocks = true; 
             int treePlayerStartY = 0;
-            int w = 0;
-            int h = 0;
+
             // Prepass first layer to find width and height.
             for (int y = 0; y < lines.Length; y++)
             {
@@ -79,7 +81,9 @@ public class Spawner : MonoBehaviour
                         }
                         else if (blocks[x] == "1")
                         {
-                            Instantiate(dirtPrefab, new Vector3(x + 0.5f, 0, h-y-1 + 0.5f), Quaternion.identity);
+
+                            Instantiate(dirtPrefab, new Vector3(x + 0.5f, 0, h - y - 1 + 0.5f), Quaternion.identity);
+
                         }
                     }
                 }
@@ -138,7 +142,11 @@ public class Spawner : MonoBehaviour
         {
             objectsToRemove.Add(Obj);
         }
-        foreach (GameObject Obj in GameObject.FindGameObjectsWithTag("Tree"))
+        foreach (GameObject Obj in GameObject.FindGameObjectsWithTag("Enemy"))
+        {
+            objectsToRemove.Add(Obj);
+        }
+            foreach (GameObject Obj in GameObject.FindGameObjectsWithTag("Tree"))
         {
             objectsToRemove.Add(Obj);
         }

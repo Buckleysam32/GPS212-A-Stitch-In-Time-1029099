@@ -6,8 +6,20 @@ public class NPC : MonoBehaviour
 {
     public List<Vector2Int> Path = new List<Vector2Int>();
 
+    public Rigidbody enemyRigidBody;
+
     void Start()
     {
+        enemyRigidBody = GetComponent<Rigidbody>();
+    }
+
+    private void OnCollisionEnter(Collision other)
+    {
+        if(other.gameObject.tag == "Player")
+        {
+            GameObject.Destroy(other.gameObject);
+            Debug.Log("Player had been killed");
+        }
     }
 
     void Update()
