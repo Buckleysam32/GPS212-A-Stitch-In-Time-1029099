@@ -151,53 +151,56 @@ public class Pathfind : MonoBehaviour
             for (int i = 0; i < directions.Length; i++)
             {
                 Vector2Int adjacentCoord = currentCoord + directions[i];
-                Node adjacentNode = GetNode(adjacentCoord);
+                if (adjacentCoord.x > 0 && adjacentCoord.y > 0 && adjacentCoord.x < GridWidth && adjacentCoord.y < GridHeight)
+                {
+                    Node adjacentNode = GetNode(adjacentCoord);
 
-                int cost = adjacentNode.C;
+                    int cost = adjacentNode.C;
 
-                if (adjacentNode.Wall)
-                {
-                    //Skip
-                }
-                else if (adjacentNode.state == Node.State.Closed)
-                {
-                    //Skip
-                }
-                else if (adjacentNode.state == Node.State.Open)
-                {
-                    if (adjacentNode.G > currentNode.G + cost)
+                    if (adjacentNode.Wall)
+                    {
+                        //Skip
+                    }
+                    else if (adjacentNode.state == Node.State.Closed)
+                    {
+                        //Skip
+                    }
+                    else if (adjacentNode.state == Node.State.Open)
+                    {
+                        if (adjacentNode.G > currentNode.G + cost)
+                        {
+                            adjacentNode.G = currentNode.G + cost;
+                            adjacentNode.H = 0;
+                            adjacentNode.F = adjacentNode.G + adjacentNode.H;
+                            adjacentNode.Parent = currentCoord;
+
+                        }
+                    }
+                    else if (adjacentNode.state == Node.State.None)
                     {
                         adjacentNode.G = currentNode.G + cost;
                         adjacentNode.H = 0;
                         adjacentNode.F = adjacentNode.G + adjacentNode.H;
                         adjacentNode.Parent = currentCoord;
-
+                        adjacentNode.state = Node.State.Open;
+                        openList.Add(adjacentCoord);
                     }
+
+
                 }
-                else if (adjacentNode.state == Node.State.None)
+
+                if (GetNode(end).state == Node.State.Closed)
                 {
-                    adjacentNode.G = currentNode.G + cost;
-                    adjacentNode.H = 0;
-                    adjacentNode.F = adjacentNode.G + adjacentNode.H;
-                    adjacentNode.Parent = currentCoord;
-                    adjacentNode.state = Node.State.Open;
-                    openList.Add(adjacentCoord);
+                    List<Vector2Int> path = new List<Vector2Int>();
+
+                    Vector2Int backtackCoord = end;
+                    while (backtackCoord.x != -1)
+                    {
+                        path.Add(backtackCoord);
+                        backtackCoord = GetNode(backtackCoord).Parent;
+                    }
+                    return path;
                 }
-
-
-            }
-
-            if (GetNode(end).state == Node.State.Closed)
-            {
-                List<Vector2Int> path = new List<Vector2Int>();
-
-                Vector2Int backtackCoord = end;
-                while (backtackCoord.x != -1)
-                {
-                    path.Add(backtackCoord);
-                    backtackCoord = GetNode(backtackCoord).Parent;
-                }
-                return path;
             }
         }
 

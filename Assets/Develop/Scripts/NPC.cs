@@ -17,9 +17,9 @@ public class NPC : MonoBehaviour
         for (int i = 0; i < Path.Count - 1; ++i)
         {
             Debug.DrawLine(
-                new Vector3(Path[i].x + 0.5f, 0.1f, Path[i].y + 0.5f),
-                new Vector3(Path[i + 1].x + 0.5f, 0.1f, Path[i + 1].y + 0.5f),
-                Color.green);
+                new Vector3(Path[i].x + 0.5f, 1.1f, Path[i].y + 0.5f),
+                new Vector3(Path[i + 1].x + 0.5f, 1.1f, Path[i + 1].y + 0.5f),
+                Color.yellow);
         }
 
         if (Path.Count == 0)
@@ -44,11 +44,24 @@ public class NPC : MonoBehaviour
                 Path[Path.Count - 1].x + Pathfind.CellSize * 0.5f,
                 0.5f,
                 Path[Path.Count - 1].y + Pathfind.CellSize * 0.5f);
-            GetComponent<Rigidbody>().velocity = (target - transform.position).normalized * 8.0f;
-
-            if (Vector3.Distance(transform.position - new Vector3(0, 0.5f, 0), target) < 0.1f)
+            Vector3 vel = target - transform.position;
+            vel.y = 0;
+            GetComponent<Rigidbody>().velocity = (vel).normalized * 8.0f;
+            Vector3 difference = transform.position - target;
+            difference.y = 0;
+            if (difference.magnitude < 0.1f)
             {
                 Path.RemoveAt(Path.Count - 1);
+            }
+        }
+        for(int z=0;z<Pathfind.GridHeight;z++) 
+        {
+            for (int x = 0; x < Pathfind.GridWidth; x++)
+            {
+                if(Pathfind.GetNode(new Vector2Int(x,z)).Wall)
+                {
+                    Debug.DrawLine(new Vector3(x + 0.5f, 0, z + 0.5f), new Vector3(x + 0.5f, 2.0f, z + 0.5f),Color.magenta);
+                }
             }
         }
     }

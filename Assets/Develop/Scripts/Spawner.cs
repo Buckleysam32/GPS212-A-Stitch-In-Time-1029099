@@ -31,13 +31,31 @@ public class Spawner : MonoBehaviour
 
     public void SpawnWorld()
     {
-        Pathfind.CreateMap(8, 8);
+        
 
         if (currentLevel != null && isWorldSpawned == false)
         {
             string[] lines = currentLevel.text.Split('\n');
             bool spawningGroundBlocks = true; 
             int treePlayerStartY = 0;
+            int w = 0;
+            int h = 0;
+            // Prepass first layer to find width and height.
+            for (int y = 0; y < lines.Length; y++)
+            {
+                string line = lines[y].Trim();
+                string[] blocks = line.Split(' ');
+                if (w < blocks.Length) { w = blocks.Length; }
+
+                for (int x = 0; x < blocks.Length; x++)
+                {
+                    if (blocks[x] == "*")
+                    {
+                        h = y;
+                        break;
+                    }
+                }
+            }
 
             for (int y = 0; y < lines.Length; y++)
             {
@@ -57,16 +75,16 @@ public class Spawner : MonoBehaviour
                     {
                         if (blocks[x] == "0")
                         {
-                            Instantiate(grassPrefab, new Vector3(x, 0, -y), Quaternion.identity);
+                            Instantiate(grassPrefab, new Vector3(x+0.5f, 0, h-y-1 + 0.5f), Quaternion.identity);
                         }
                         else if (blocks[x] == "1")
                         {
-                            Instantiate(dirtPrefab, new Vector3(x, 0, -y), Quaternion.identity);
+                            Instantiate(dirtPrefab, new Vector3(x + 0.5f, 0, h-y-1 + 0.5f), Quaternion.identity);
                         }
                     }
                 }
             }
-
+            Pathfind.CreateMap(w, h);
             for (int y = treePlayerStartY; y < lines.Length; y++)
             {
                 string line = lines[y].Trim();
@@ -76,17 +94,17 @@ public class Spawner : MonoBehaviour
                 {
                     if (blocks[x] == "t")
                     {
-                        Pathfind.GetNode(new Vector2Int(x, y - treePlayerStartY)).Wall = true;
+                        Pathfind.GetNode(new Vector2Int(x, h-(y - treePlayerStartY)-1)).Wall = true;
 
-                        Instantiate(treePrefab, new Vector3(x, 0.5f, -(y - treePlayerStartY)), Quaternion.identity);
+                        Instantiate(treePrefab, new Vector3(x + 0.5f, 0.5f, h-(y - treePlayerStartY)-1 + 0.5f), Quaternion.identity);
                     }
                     else if (blocks[x] == "p")
                     {
-                        Instantiate(playerPrefab, new Vector3(x, 1.1f, -(y - treePlayerStartY)), Quaternion.identity);
+                        Instantiate(playerPrefab, new Vector3(x + 0.5f, 1.1f, h-(y - treePlayerStartY)-1 + 0.5f), Quaternion.identity);
                     }
                     else if (blocks[x] == "e")
                     {
-                        Instantiate(enemyPrefab, new Vector3(x, 1.1f, -(y - treePlayerStartY)), Quaternion.identity);
+                        Instantiate(enemyPrefab, new Vector3(x + 0.5f, 1.1f, h-(y - treePlayerStartY)-1 + 0.5f), Quaternion.identity);
                     }
                 }
             }
